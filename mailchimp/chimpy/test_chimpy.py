@@ -13,10 +13,11 @@ import os
 import pprint
 import operator
 import random
-import md5
+# import md5
+import hashlib
 import datetime
 
-import chimpy
+from .chimpy import *
 
 chimp = None
 
@@ -66,9 +67,9 @@ def test_list_subscribe_and_unsubscribe():
     assert result == True
 
     members = chimp.list_members(list_id())['data']
-    print members
+    print(members)
     emails = map(lambda x: x['email'], members)
-    print members
+    print(members)
     assert EMAIL_ADDRESS in emails
 
     result = chimp.list_unsubscribe(list_id(),
@@ -160,7 +161,7 @@ def test_list_update_member_and_member_info():
 
 
 def test_create_delete_campaign():
-    uid = md5.new(str(random.random())).hexdigest()
+    uid = hashlib.md5(str(random.random()).encode()).hexdigest()
     subject = 'chimpy campaign test %s' % uid
     options = {'list_id': list_id(),
            'subject': subject,
@@ -305,5 +306,5 @@ if __name__ == '__main__':
     setup_module()
     for f in globals().keys():
         if f.startswith('test_') and callable(globals()[f]):
-            print f
+            print(f)
             globals()[f]()

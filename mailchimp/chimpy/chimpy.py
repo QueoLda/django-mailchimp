@@ -1,7 +1,6 @@
 import json
 import pprint
 import urllib
-import urllib2
 from warnings import warn
 
 from .utils import transform_datetime
@@ -37,27 +36,27 @@ class Connection(object):
         api_host = dc + '.' + api_host
 
         self.url = '%s://%s/%s/' % (proto, api_host, self.version)
-        self.opener = urllib2.build_opener()
+        self.opener = urllib.request.build_opener()
         self.opener.addheaders = [('Content-Type', 'application/x-www-form-urlencoded')]
 
     def _rpc(self, method, **params):
         """make an rpc call to the server"""
 
-        params = urllib.urlencode(params, doseq=True)
+        params = urllib.parse.urlencode(params, doseq=True)
 
         if _debug > 1:
-            print __name__, "making request with parameters"
+            print(__name__, "making request with parameters")
             pprint.pprint(params)
-            print __name__, "encoded parameters:", params
+            print(__name__, "encoded parameters:", params)
 
-        response = self.opener.open("%s?method=%s" % (self.url, method), params)
+        response = self.opener.open("%s?method=%s" % (self.url, method), params.encode())
         data = response.read()
         response.close()
 
         if _debug > 1:
-            print __name__, "rpc call received", data
+            print(__name__, "rpc call received", data)
 
-        result = json.loads(data)
+        result = json.loads(data.decode())
 
         try:
             iter(result)
@@ -84,7 +83,7 @@ class Connection(object):
 
 
         # flatten dict variables
-        params = dict([(str(k), v.encode('utf-8') if isinstance(v, unicode) else v) for k,v in flatten(params).items()])
+        params = dict([(str(k), v) for k,v in flatten(params).items()])
         params['output'] = self.output
         params['apikey'] = self._apikey
 
