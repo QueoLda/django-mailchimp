@@ -181,7 +181,7 @@ def test_create_delete_campaign():
 
     content = {'html': html}
     cid = chimp.campaign_create('regular', options, content, segment_opts=segment_opts)
-    assert isinstance(cid, basestring)
+    assert isinstance(cid, str)
 
     # check if the new campaign really is there
     campaigns = chimp.campaigns(filter_subject=subject)
@@ -216,7 +216,7 @@ def test_replicate_update_campaign():
     cid = chimp.campaign_create('regular', options, content)
 
     newcid = chimp.campaign_replicate(cid=cid)
-    assert isinstance(newcid, basestring)
+    assert isinstance(newcid, str)
 
     newsubject = 'Fresh subject ' + uid
     newtitle = 'Custom title ' + uid

@@ -177,7 +177,7 @@ class Connection(object):
                               replace_interests=replace_interests)
 
     def list_member_info(self, id, email_address):
-        if isinstance(email_address, basestring):
+        if isinstance(email_address, str):
             first = True
             email_address = [email_address]
         else:
@@ -341,7 +341,7 @@ class Connection(object):
         http://apidocs.mailchimp.com/api/1.3/campaignsendtest.func.php
         """
 
-        if isinstance(test_emails, basestring):
+        if isinstance(test_emails, str):
             test_emails = [test_emails]
 
         return self._api_call(method='campaignSendTest', cid=cid, test_emails=test_emails, **kwargs)
