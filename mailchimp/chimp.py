@@ -343,7 +343,8 @@ class List(BaseChimpObject):
             return None
         # actually it would make more sense giving the member everything
         memberdata = {}
-        memberdata['timestamp'] = data['timestamp']
+        # memberdata['timestamp'] = data['timestamp']
+        memberdata['timestamp'] = data['timestamp_signup']
         memberdata['email'] = data['email']
         return Member(self, memberdata)
     
